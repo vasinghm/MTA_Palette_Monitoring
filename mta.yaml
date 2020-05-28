@@ -1,0 +1,54 @@
+---
+  ID: "Palette_Monitoring"
+  _schema-version: "2.1"
+  version: "0.0.1"
+  modules: 
+    - 
+      name: "UI_Palette_Monitoring"
+      type: "html5"
+      path: "UI_Palette_Monitoring"
+      parameters: 
+        disk-quota: "256M"
+        memory: "256M"
+      build-parameters: 
+        builder: "grunt"
+      requires: 
+        - 
+          name: "uaa_Palette_Monitoring"
+        - 
+          name: "dest_Palette_Monitoring"
+    - 
+      name: "DB_Palette_Monitoring"
+      type: "hdb"
+      path: "DB_Palette_Monitoring"
+      requires: 
+        - 
+          name: "hdi_DB_Palette_Monitoring"
+    - 
+      name: "Node_JS_Palette_Monitoring"
+      type: "nodejs"
+      path: "Node_JS_Palette_Monitoring"
+      provides: 
+        - 
+          name: "Node_JS_Palette_Monitoring_api"
+          properties: 
+            url: "${default-url}"
+  resources: 
+    - 
+      name: "uaa_Palette_Monitoring"
+      parameters: 
+        path: "./xs-security.json"
+        service-plan: "application"
+        service: "xsuaa"
+      type: "org.cloudfoundry.managed-service"
+    - 
+      name: "dest_Palette_Monitoring"
+      parameters: 
+        service-plan: "lite"
+        service: "destination"
+      type: "org.cloudfoundry.managed-service"
+    - 
+      name: "hdi_DB_Palette_Monitoring"
+      properties: 
+        hdi-container-name: "${service-name}"
+      type: "com.sap.xs.hdi-container"
